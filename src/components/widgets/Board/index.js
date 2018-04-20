@@ -35,11 +35,15 @@ export default class Board extends React.Component {
             });
         }
 
-        this.props.updatePlayer(this.state.currentPlayer === 'X' ? 'O' : 'X');
-
         if (hasWinner) {
-            this.props.setWinner(this.state.currentPlayer);
+            if (!isNaN((this.props.xPos)) && !isNaN(this.props.yPos)) {
+                this.props.setWinner(this.state.currentPlayer, this.props.xPos, this.props.yPos);
+            } else {
+                this.props.setWinner(this.state.currentPlayer);
+            }
         }
+
+        this.props.updatePlayer(this.state.currentPlayer === 'X' ? 'O' : 'X');
     }
 
     render() {
