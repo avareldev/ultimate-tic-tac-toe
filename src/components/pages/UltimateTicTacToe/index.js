@@ -1,6 +1,7 @@
 import React from 'react';
 import {Helmet} from "react-helmet";
 import UltimateBoard from "../../widgets/UltimateBoard";
+import {Link} from 'react-router-dom';
 
 import './UltimateTicTacToe.scss';
 
@@ -27,6 +28,10 @@ export default class UltimateTicTacToe extends React.Component{
         })
     }
 
+    restart = () => {
+        this.child.restart();
+    };
+
     render() {
         return (
             <div className="page">
@@ -35,11 +40,14 @@ export default class UltimateTicTacToe extends React.Component{
                 </Helmet>
                 <h1>Ultimate Tic Tac Toe</h1>
                 { !this.state.winner ? (
-                    <h2>Current Player: {this.state.currentPlayer} </h2>
+                    <h2 className={'current-player-' +this.state.currentPlayer.toLowerCase()}>Current Player: {this.state.currentPlayer} </h2>
                 ) : (
                     <h2>Winner: {this.state.winner} </h2>
                 )}
-                <UltimateBoard updatePlayer={this.updatePlayer} setWinner={this.setWinner} />
+                <UltimateBoard ref={instance => { this.child = instance; }} updatePlayer={this.updatePlayer} setWinner={this.setWinner} />
+
+
+                <p><a href="#" onClick={() => { this.child.restart(); }}>Restart</a></p>
             </div>
         )
     }

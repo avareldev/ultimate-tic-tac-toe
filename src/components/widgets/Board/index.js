@@ -23,6 +23,9 @@ export default class Board extends React.Component {
     }
 
     setField = (yPos, xPos) => {
+        if (this.props.isUltimate && !this.props.active) {
+            return;
+        }
         let board = [...this.state.board];
         let hasWinner = false;
         if (board[yPos][xPos] === '' && !this.state.hasWinner) {
@@ -36,11 +39,19 @@ export default class Board extends React.Component {
         }
 
         if (hasWinner) {
+            this.setState({
+                winner: this.getCurrentPlayer()
+            });
             if (this.props.isUltimate) {
-                this.props.setWinner(this.getCurrentPlayer(), this.props.xPos, this.props.yPos);
+                console.log('the tile has as winner', yPos, xPos);
+                this.props.setWinner(this.getCurrentPlayer(), this.props.yPos, this.props.xPos);
             } else {
                 this.props.setWinner(this.getCurrentPlayer());
             }
+        }
+
+        if (this.props.isUltimate) {
+            this.props.setActiveBoard(yPos, xPos);
         }
 
         this.props.updatePlayer(this.getCurrentPlayer() === 'X' ? 'O' : 'X');
@@ -54,14 +65,22 @@ export default class Board extends React.Component {
     }
 
     render() {
+        let className = 'board';
+        if (this.props.active) {
+            className += ' active player-' + this.getCurrentPlayer().toLowerCase();
+        }
+        if (this.state.winner) {
+            className += ' winner-'+ this.state.winner.toLowerCase();
+        }
+
         return (
-            <div className="board">
+            <div className={className}>
                 {
                     this.state.board.map((row, rowIndex) => {
                         return (
                             <div key={rowIndex}>
                                 {row.map((field, index) => {
-                                    return (<Field key={index} yPos={rowIndex} xPos={index} content={field} setField={this.setField} />)
+                                    return (<Field key={'field' + rowIndex + index} yPos={rowIndex} xPos={index} content={field} setField={this.setField} />)
                                 })}
                             </div>)
                     })

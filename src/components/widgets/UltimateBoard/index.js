@@ -16,13 +16,30 @@ export default class UltimateBoard extends React.Component{
                 ['', '', ''],
                 ['', '', '']
             ],
-            currentPlayer: 'X'
+            currentPlayer: 'X',
+            lastMove: null
         };
 
+        this.children = [];
         this.matchChecker = new MatchChecker(this.state.board);
     }
 
-    setWinner = (winner, xPos, yPos) => {
+    restart = () => {
+        this.setState({
+            hasWinner: false,
+            board: [
+                ['', '', ''],
+                ['', '', ''],
+                ['', '', '']
+            ],
+            currentPlayer: 'X',
+            lastMove: null
+        });
+
+        this.children.forEach((child) => {child.restart()});
+    }
+
+    setWinner = (winner, yPos, xPos) => {
         let board = [...this.state.board];
         let hasWinner = false;
         if (board[yPos][xPos] === '' && !this.state.hasWinner) {
@@ -38,6 +55,34 @@ export default class UltimateBoard extends React.Component{
         if (hasWinner) {
             this.props.setWinner(this.state.currentPlayer);
         }
+    }
+
+    setActiveBoard = (yPos, xPos) => {
+        this.setState({
+            lastMove: {
+                yPos: yPos,
+                xPos: xPos
+            }
+        });
+    }
+
+    isActive = (yPos, xPos) => {
+        if (this.state.hasWinner) {
+            return false;
+        }
+        if (!this.state.lastMove) {
+            return true;
+        }
+        if (this.state.board[yPos][xPos] !== '') {
+            return false;
+        }
+        if (this.state.board[this.state.lastMove.yPos][this.state.lastMove.xPos] !== '') {
+            return true;
+        }
+        if (this.state.lastMove.yPos === yPos && this.state.lastMove.xPos === xPos) {
+            return true;
+        }
+        return false;
     }
 
     updatePlayer = () => {
@@ -56,7 +101,7 @@ export default class UltimateBoard extends React.Component{
                         return (
                             <div key={rowIndex}>
                                 {row.map((field, index) => {
-                                    return (<Board key={index} currentPlayer={this.state.currentPlayer} isUltimate={true} yPos={rowIndex} xPos={index} updatePlayer={this.updatePlayer} setWinner={this.setWinner} />)
+                                    return (<Board ref={instance => { this.children.push(instance); }} key={'board' + rowIndex + index} active={this.isActive(rowIndex, index)} currentPlayer={this.state.currentPlayer} isUltimate={true} yPos={rowIndex} xPos={index} setActiveBoard={this.setActiveBoard} updatePlayer={this.updatePlayer} setWinner={this.setWinner} />)
                                 })}
                             </div>)
                     })

@@ -1,6 +1,7 @@
 .board {
     display: flex;
     margin: 10px;
+    border: none;
 }
 
 .board-row {
@@ -14,7 +15,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #000;
     font-size: 20px;
 }
 

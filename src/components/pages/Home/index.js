@@ -24,8 +24,8 @@ export default class Home extends React.Component{
                     <title>Home</title>
                 </Helmet>
                 <h1>Welcome</h1>
-                <p><Link to="/tic-tac-toe" className={this.props.path === "/game" ? "active" : ""}>Tic Tac Toe</Link></p>
-                <p><Link to="/ultimate-tic-tac-toe" className={this.props.path === "/game" ? "active" : ""}>Ultimate Tic Tac Toe</Link></p>
+                <p><Link to="/tic-tac-toe">Tic Tac Toe</Link></p>
+                <p><Link to="/ultimate-tic-tac-toe">Ultimate Tic Tac Toe</Link></p>
             </div>
         );
     }

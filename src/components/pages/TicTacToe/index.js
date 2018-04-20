@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Board from "../../widgets/Board";
 import {Helmet} from "react-helmet";
-import MatchChecker from "../../../helpers/MatchChecker";
+
+import './TicTacToe.scss';
 
 export default class TicTacToe extends Component {
 
@@ -24,6 +25,13 @@ export default class TicTacToe extends Component {
         this.setState({
             winner: winner
         })
+    }
+
+    restart = () => {
+        this.state = {
+            winner: null,
+            currentPlayer: 'X'
+        }
     }
 
     render() {

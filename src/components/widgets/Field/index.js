@@ -7,8 +7,12 @@ export default class Field extends Component {
     }
 
     render() {
+        let className = 'field';
+        if (this.props.content) {
+            className += ' player-' + this.props.content.toLowerCase();
+        }
         return (
-            <div className="field" onClick={this.handleClick}>
+            <div className={className} onClick={this.handleClick}>
                 {this.props.content}
             </div>
         );
