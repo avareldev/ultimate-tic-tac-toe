@@ -25,7 +25,7 @@ export const routes = [{
     component: About,
     routes: undefined
 },{
-    path: '/ulitmate-tic-tac-toe',
+    path: '/ultimate-tic-tac-toe',
     exact: true,
     component: UltimateTicTacToe,
     routes: undefined

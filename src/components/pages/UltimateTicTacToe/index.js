@@ -1,7 +1,6 @@
 import React from 'react';
 import {Helmet} from "react-helmet";
-import {TicTacToe} from "../TicTacToe";
-import MatchChecker from "../../../helpers/MatchChecker";
+import UltimateBoard from "../../widgets/UltimateBoard";
 
 import './UltimateTicTacToe.scss';
 
@@ -11,61 +10,37 @@ export default class UltimateTicTacToe extends React.Component{
         super(props);
 
         this.state = {
-            hasWinner: false,
-            board: [
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', '']
-            ],
+            winner: null,
             currentPlayer: 'X'
-        };
-
-        this.matchChecker = new MatchChecker(this.state.board);
-    }
-
-    setWinner(yPos, xPos) {
-        let board = [...this.state.board];
-        if (board[yPos][xPos] === '' && !this.state.hasWinner) {
-            board[yPos][xPos] = this.state.currentPlayer;
-            this.setState({
-                hasWinner: this.matchChecker.checkForWinner(),
-                board: board
-            })
         }
     }
 
-    updatePlayer() {
-        console.log(this.state.currentPlayer);
+    updatePlayer = (player) => {
         this.setState({
-            currentPlayer: this.state.currentPlayer === 'X' ? 'O' : 'X'
+            currentPlayer: player
         })
     }
 
-    render(){
-        return(
+    setWinner = (winner) => {
+        this.setState({
+            winner: winner
+        })
+    }
+
+    render() {
+        return (
             <div className="page">
                 <Helmet>
-                    <title>Game</title>
+                    <title>Ultimate Tic Tac Toe</title>
                 </Helmet>
-                <h1>ULTIMATE Tic Tac Toe</h1>
-                { !this.state.hasWinner ? (
+                <h1>Ultimate Tic Tac Toe</h1>
+                { !this.state.winner ? (
                     <h2>Current Player: {this.state.currentPlayer} </h2>
                 ) : (
-                    <h2>Winner: {this.state.hasWinner ? (this.state.currentPlayer  === 'X' ? 'O' : 'X') : ''} </h2>
+                    <h2>Winner: {this.state.winner} </h2>
                 )}
-                <div className="board-row">
-                    {
-                        this.state.board.map((row, rowIndex) => {
-                            return (
-                                <div key={rowIndex}>
-                                    {row.map((field, index) => {
-                                        return (<Board key={index} yPos={rowIndex} xPos={index} updatePlayer={this.updatePlayer} setWinner={this.setWinner} />)
-                                    })}
-                                </div>)
-                        })
-                    }
-                </div>
+                <UltimateBoard updatePlayer={this.updatePlayer} setWinner={this.setWinner} />
             </div>
-        );
+        )
     }
 }

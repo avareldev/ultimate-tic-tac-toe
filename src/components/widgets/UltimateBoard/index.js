@@ -1,10 +1,10 @@
 import React from 'react';
-import MatchChecker from '../../../helpers/MatchChecker';
-import Field from '../Field';
+import Board from "../Board";
+import MatchChecker from "../../../helpers/MatchChecker";
 
-import './Board.scss';
+import './UltimateBoard.scss';
 
-export default class Board extends React.Component {
+export default class UltimateBoard extends React.Component{
 
     constructor(props) {
         super(props);
@@ -17,45 +17,42 @@ export default class Board extends React.Component {
                 ['', '', '']
             ],
             currentPlayer: 'X'
-        }
+        };
 
         this.matchChecker = new MatchChecker(this.state.board);
     }
 
-    setField = (yPos, xPos) => {
+    setWinner = (yPos, xPos) => {
         let board = [...this.state.board];
-        let hasWinner = false;
         if (board[yPos][xPos] === '' && !this.state.hasWinner) {
             board[yPos][xPos] = this.state.currentPlayer;
-            hasWinner = this.matchChecker.checkForWinner();
             this.setState({
-                hasWinner: hasWinner,
-                board: board,
-                currentPlayer: this.state.currentPlayer === 'X' ? 'O' : 'X'
-            });
-        }
-
-        this.props.updatePlayer(this.state.currentPlayer === 'X' ? 'O' : 'X');
-
-        if (hasWinner) {
-            this.props.setWinner(this.state.currentPlayer);
+                hasWinner: this.matchChecker.checkForWinner(),
+                board: board
+            })
         }
     }
 
-    render() {
-        return (
-            <div className="board">
+    updatePlayer = () => {
+        this.setState({
+            currentPlayer: this.state.currentPlayer === 'X' ? 'O' : 'X'
+        })
+    }
+
+    render(){
+        return(
+            <div className="board-row">
                 {
                     this.state.board.map((row, rowIndex) => {
                         return (
                             <div key={rowIndex}>
                                 {row.map((field, index) => {
-                                    return (<Field key={index} yPos={rowIndex} xPos={index} content={field} setField={this.setField} />)
+                                    return (<Board key={index} yPos={rowIndex} xPos={index} updatePlayer={this.updatePlayer} setWinner={this.setWinner} />)
                                 })}
                             </div>)
                     })
                 }
             </div>
-        )
+        );
     }
 }
