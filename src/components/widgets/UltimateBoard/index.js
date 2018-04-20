@@ -20,23 +20,7 @@ export default class UltimateBoard extends React.Component{
             lastMove: null
         };
 
-        this.children = [];
         this.matchChecker = new MatchChecker(this.state.board);
-    }
-
-    restart = () => {
-        this.setState({
-            hasWinner: false,
-            board: [
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', '']
-            ],
-            currentPlayer: 'X',
-            lastMove: null
-        });
-
-        this.children.forEach((child) => {child.restart()});
     }
 
     setWinner = (winner, yPos, xPos) => {
@@ -101,7 +85,7 @@ export default class UltimateBoard extends React.Component{
                         return (
                             <div key={rowIndex}>
                                 {row.map((field, index) => {
-                                    return (<Board ref={instance => { this.children.push(instance); }} key={'board' + rowIndex + index} active={this.isActive(rowIndex, index)} currentPlayer={this.state.currentPlayer} isUltimate={true} yPos={rowIndex} xPos={index} setActiveBoard={this.setActiveBoard} updatePlayer={this.updatePlayer} setWinner={this.setWinner} />)
+                                    return (<Board key={'board' + rowIndex + index} active={this.isActive(rowIndex, index)} currentPlayer={this.state.currentPlayer} isUltimate={true} yPos={rowIndex} xPos={index} setActiveBoard={this.setActiveBoard} updatePlayer={this.updatePlayer} setWinner={this.setWinner} />)
                                 })}
                             </div>)
                     })

@@ -28,10 +28,6 @@ export default class UltimateTicTacToe extends React.Component{
         })
     }
 
-    restart = () => {
-        this.child.restart();
-    };
-
     render() {
         return (
             <div className="page">
@@ -44,10 +40,8 @@ export default class UltimateTicTacToe extends React.Component{
                 ) : (
                     <h2>Winner: {this.state.winner} </h2>
                 )}
-                <UltimateBoard ref={instance => { this.child = instance; }} updatePlayer={this.updatePlayer} setWinner={this.setWinner} />
+                <UltimateBoard updatePlayer={this.updatePlayer} setWinner={this.setWinner} />
 
-
-                <p><a href="#" onClick={() => { this.child.restart(); }}>Restart</a></p>
             </div>
         )
     }

@@ -10,8 +10,8 @@
 }
 
 .field {
-    height: 3em;
-    width: 3em;
+    height: 2em;
+    width: 2em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,6 +28,6 @@
     color: blue;
 }
 
-.current-player-x {
+.current-player-o {
     color: red;
 }

@@ -27,13 +27,6 @@ export default class TicTacToe extends Component {
         })
     }
 
-    restart = () => {
-        this.state = {
-            winner: null,
-            currentPlayer: 'X'
-        }
-    }
-
     render() {
         return (
             <div className="page">
