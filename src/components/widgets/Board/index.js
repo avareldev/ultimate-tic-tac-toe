@@ -26,24 +26,31 @@ export default class Board extends React.Component {
         let board = [...this.state.board];
         let hasWinner = false;
         if (board[yPos][xPos] === '' && !this.state.hasWinner) {
-            board[yPos][xPos] = this.state.currentPlayer;
+            board[yPos][xPos] = this.getCurrentPlayer();
             hasWinner = this.matchChecker.checkForWinner();
             this.setState({
                 hasWinner: hasWinner,
                 board: board,
-                currentPlayer: this.state.currentPlayer === 'X' ? 'O' : 'X'
+                currentPlayer: this.getCurrentPlayer() === 'X' ? 'O' : 'X'
             });
         }
 
         if (hasWinner) {
-            if (!isNaN((this.props.xPos)) && !isNaN(this.props.yPos)) {
-                this.props.setWinner(this.state.currentPlayer, this.props.xPos, this.props.yPos);
+            if (this.props.isUltimate) {
+                this.props.setWinner(this.getCurrentPlayer(), this.props.xPos, this.props.yPos);
             } else {
-                this.props.setWinner(this.state.currentPlayer);
+                this.props.setWinner(this.getCurrentPlayer());
             }
         }
 
-        this.props.updatePlayer(this.state.currentPlayer === 'X' ? 'O' : 'X');
+        this.props.updatePlayer(this.getCurrentPlayer() === 'X' ? 'O' : 'X');
+    }
+
+    getCurrentPlayer = () => {
+        if (this.props.isUltimate) {
+            return this.props.currentPlayer;
+        }
+        return this.state.currentPlayer;
     }
 
     render() {

@@ -56,7 +56,7 @@ export default class UltimateBoard extends React.Component{
                         return (
                             <div key={rowIndex}>
                                 {row.map((field, index) => {
-                                    return (<Board key={index} yPos={rowIndex} xPos={index} updatePlayer={this.updatePlayer} setWinner={this.setWinner} />)
+                                    return (<Board key={index} currentPlayer={this.state.currentPlayer} isUltimate={true} yPos={rowIndex} xPos={index} updatePlayer={this.updatePlayer} setWinner={this.setWinner} />)
                                 })}
                             </div>)
                     })
